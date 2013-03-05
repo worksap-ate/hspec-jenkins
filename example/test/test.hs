@@ -6,10 +6,10 @@ import System.IO (withFile, IOMode(..))
 import Test.Hspec
 import Test.Hspec.QuickCheck (prop)
 import Test.Hspec.Runner
+import Test.Hspec.Formatters.Jenkins (xmlFormatter)
 
-import Sample
+import Example
 
-import XmlFormatter (xmlFormatter)
 
 main :: IO ()
 main = do

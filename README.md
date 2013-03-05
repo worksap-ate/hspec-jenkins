@@ -1,7 +1,11 @@
 # hspec-jenkins
-Hspec で JUnit っぽい XML を出力するための設定例
+Hspec で JUnit っぽい XML を出力する
+
+## .cabal の設定
+test-suite の build-depends に hspec-jenkins を追加する。
 
 ## Hspec の設定
+
 Hspec にはフォーマット方法をカスタマイズする方法が用意されている。
 通常、
 
@@ -12,6 +16,8 @@ main = hspec spec
 とするところを、
 
 ```haskell
+import Test.Hspec.Formatters.Jenkins (xmlFormatter)
+
 main = do
   summary <- withFile "results.xml" WriteMode $ \h -> do
     let c = defaultConfig
@@ -30,8 +36,7 @@ main = do
 - 失敗したテストが1つでもあったら非0で exit (`hspec` だと勝手にこの挙動になる)
 
 ## xmlFormatter
-実装は [XmlFormatter](test/XmlFormatter.hs) に分離されている。
-blaze-markup を使って JUnit っぽい XML を出力している。
+実装としては、 blaze-markup を使って JUnit っぽい XML を出力している。
 
 微妙な点
 
@@ -40,3 +45,6 @@ blaze-markup を使って JUnit っぽい XML を出力している。
     - Hspec のフォーマッタの仕様上、これを XML に含めるのは難しい
 - pending (skip) したときのメッセージが Jenkins 上には表示されない
     - これは Jenkins の問題
+
+## 利用例
+[example](example) にある。

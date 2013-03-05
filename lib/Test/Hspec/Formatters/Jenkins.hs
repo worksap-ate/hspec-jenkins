@@ -1,5 +1,5 @@
 {-# LANGUAGE RecordWildCards, OverloadedStrings #-}
-module XmlFormatter (xmlFormatter) where
+module Test.Hspec.Formatters.Jenkins (xmlFormatter) where
 import Data.List (intercalate)
 import Test.Hspec.Formatters
 import Test.Hspec.Runner (Path)

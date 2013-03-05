@@ -1,23 +1,17 @@
 name: hspec-jenkins
 version: 0.1.0
+description: Jenkins-friendly XML formatter for HSpec
 author: eagletmt
 maintainer: eagletmt@gmail.com
 build-type: Simple
 cabal-version: >= 1.8
 
 library
-  build-depends: base == 4.*
-  hs-source-dirs: lib
-  ghc-options: -Wall -W
-  exposed-modules: Sample
-
-test-suite hspec-jenkins-example
   build-depends:
       base == 4.*
-    , hspec-jenkins
     , hspec
     , blaze-markup
-  hs-source-dirs: test
+  hs-source-dirs: lib
   ghc-options: -Wall -W
-  type: exitcode-stdio-1.0
-  main-is: example.hs
+  exposed-modules:
+    Test.Hspec.Formatters.Jenkins

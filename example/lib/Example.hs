@@ -1,4 +1,4 @@
-module Sample where
+module Example where
 
 add :: Int -> Int -> Int
 add = (+)
