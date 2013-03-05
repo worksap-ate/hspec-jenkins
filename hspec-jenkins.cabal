@@ -9,7 +9,7 @@ cabal-version: >= 1.8
 library
   build-depends:
       base == 4.*
-    , hspec
+    , hspec >= 1.4
     , blaze-markup
   hs-source-dirs: lib
   ghc-options: -Wall -W
