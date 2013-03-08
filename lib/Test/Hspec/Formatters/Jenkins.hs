@@ -1,3 +1,24 @@
+{-| This module provides 'xmlFormatter' that can be used with 'Test.Hspec.Runner.hspecWith'.
+
+  Example usage:
+
+  > import Test.Hspec.Formatters.Jenkins (xmlFormatter)
+  > import Test.Hspec.Runner
+  >
+  > main :: IO ()
+  > main = do
+  >   summary <- withFile "results.xml" WriteMode $ \h -> do
+  >     let c = defaultConfig
+  >           { configFormatter = xmlFormatter
+  >           , configHandle = h
+  >           }
+  >     hspecWith c spec
+  >   unless (summaryFailures summary == 0) $
+  >     exitFailure
+
+  An example project is located in @example@ directory.
+-}
+
 {-# LANGUAGE RecordWildCards, OverloadedStrings #-}
 module Test.Hspec.Formatters.Jenkins (xmlFormatter) where
 import Data.List (intercalate)
@@ -18,6 +39,7 @@ message = customAttribute "message" . stringValue
 testcase :: Path -> Markup -> Markup
 testcase (xs,x) = customParent "testcase" ! name x ! className (intercalate "." xs)
 
+-- | Format Hspec result to Jenkins-friendly XML.
 xmlFormatter :: Formatter
 xmlFormatter = Formatter{..}
   where
