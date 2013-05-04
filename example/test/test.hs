@@ -37,6 +37,6 @@ spec = do
         exn `shouldThrow` anyIOException
   describe "foo" $ do
     it "bar" $ do
-      pending "baz"
+      pendingWith "baz"
     it "hoge" $ do
       pending
