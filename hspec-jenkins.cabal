@@ -1,5 +1,5 @@
 name: hspec-jenkins
-version: 0.1.0
+version: 0.1.1
 synopsis: Jenkins-friendly XML formatter for Hspec
 description: Jenkins-friendly XML formatter for Hspec
 author: Kohei Suzuki
