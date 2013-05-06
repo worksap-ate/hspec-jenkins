@@ -19,7 +19,7 @@
   An example project is located in @example@ directory.
 -}
 
-{-# LANGUAGE RecordWildCards, OverloadedStrings #-}
+{-# LANGUAGE OverloadedStrings #-}
 module Test.Hspec.Formatters.Jenkins (xmlFormatter) where
 import Data.List (intercalate)
 import Test.Hspec.Formatters
@@ -41,26 +41,23 @@ testcase (xs,x) = customParent "testcase" ! name x ! className (intercalate "." 
 
 -- | Format Hspec result to Jenkins-friendly XML.
 xmlFormatter :: Formatter
-xmlFormatter = Formatter{..}
-  where
+xmlFormatter = silent {
     headerFormatter = do
       writeLine "<?xml version='1.0' encoding='UTF-8'?>"
       writeLine "<testsuite>"
-    exampleGroupStarted _ _ _ = return ()
-    exampleGroupDone = return ()
-    exampleSucceeded path = do
+  , exampleSucceeded = \path -> do
       writeLine $ renderMarkup $
         testcase path ""
-    exampleFailed path err = do
+  , exampleFailed = \path err -> do
       writeLine $ renderMarkup $
         testcase path $
           failure ! message (either formatException id err) $ ""
-    examplePending path mdesc = do
+  , examplePending = \path mdesc -> do
       writeLine $ renderMarkup $
         testcase path $
           case mdesc of
             Just desc -> skipped ! message desc  $ ""
             Nothing -> skipped ""
-    failedFormatter = return ()
-    footerFormatter = do
+  , footerFormatter = do
       writeLine "</testsuite>"
+  }
