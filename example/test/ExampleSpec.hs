@@ -1,27 +1,12 @@
-module Main where
+module ExampleSpec (main, spec) where
 
-import Control.Monad (unless)
-import System.Exit (exitFailure)
-import System.IO (withFile, IOMode(..))
 import Test.Hspec
 import Test.Hspec.QuickCheck (prop)
-import Test.Hspec.Runner
-import Test.Hspec.Formatters.Jenkins (xmlFormatter)
 
 import Example
 
-
 main :: IO ()
-main = do
-  -- hspec spec
-  summary <- withFile "results.xml" WriteMode $ \h -> do
-    let c = defaultConfig
-          { configFormatter = xmlFormatter
-          , configHandle = h
-          }
-    hspecWith c spec
-  unless (summaryFailures summary == 0) $
-    exitFailure
+main = hspec spec
 
 spec :: Spec
 spec = do
