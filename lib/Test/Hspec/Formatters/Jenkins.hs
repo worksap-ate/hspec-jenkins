@@ -39,6 +39,16 @@ message = customAttribute "message" . stringValue
 testcase :: Path -> Markup -> Markup
 testcase (xs,x) = customParent "testcase" ! name x ! className (intercalate "." xs)
 
+reasonAsString :: FailureReason -> String
+reasonAsString reason =
+  case reason of
+    NoReason -> "no reason given"
+    Reason x -> x
+    ExpectedButGot Nothing expected got ->
+      "Expected " ++ expected ++ " but got " ++ got
+    ExpectedButGot (Just src) expected got ->
+      src ++ " expected " ++ expected ++ " but got " ++ got
+
 -- | Format Hspec result to Jenkins-friendly XML.
 xmlFormatter :: Formatter
 xmlFormatter = silent {
@@ -51,7 +61,7 @@ xmlFormatter = silent {
   , exampleFailed = \path err -> do
       writeLine $ renderMarkup $
         testcase path $
-          failure ! message (either formatException id err) $ ""
+          failure ! message (either formatException reasonAsString err) $ ""
   , examplePending = \path mdesc -> do
       writeLine $ renderMarkup $
         testcase path $
