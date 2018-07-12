@@ -48,6 +48,8 @@ reasonAsString reason =
       "Expected " ++ expected ++ " but got " ++ got
     ExpectedButGot (Just src) expected got ->
       src ++ " expected " ++ expected ++ " but got " ++ got
+    Error Nothing err -> show err
+    Error (Just s) err -> s ++ (show err)
 
 -- | Format Hspec result to Jenkins-friendly XML.
 xmlFormatter :: Formatter
@@ -55,17 +57,17 @@ xmlFormatter = silent {
     headerFormatter = do
       writeLine "<?xml version='1.0' encoding='UTF-8'?>"
       writeLine "<testsuite>"
-  , exampleSucceeded = \path -> do
+  , exampleSucceeded = \path _ -> do
       writeLine $ renderMarkup $
         testcase path ""
-  , exampleFailed = \path err -> do
+  , exampleFailed = \path _ err -> do
       writeLine $ renderMarkup $
         testcase path $
-          failure ! message (either formatException reasonAsString err) $ ""
-  , examplePending = \path mdesc -> do
+          failure ! message (reasonAsString err) $ ""
+  , examplePending = \path _ reason -> do
       writeLine $ renderMarkup $
         testcase path $
-          case mdesc of
+          case reason of
             Just desc -> skipped ! message desc  $ ""
             Nothing -> skipped ""
   , footerFormatter = do
