@@ -1,0 +1,9 @@
+resolver: lts-11.9
+packages:
+- '.'
+extra-deps:
+- hspec-core-2.5.1
+- hspec-2.5.1
+- hspec-discover-2.5.1
+- hspec-expectations-0.8.2
+- call-stack-0.1.0

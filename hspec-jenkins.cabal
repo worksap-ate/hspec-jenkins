@@ -20,8 +20,8 @@ source-repository head
 
 library
   build-depends:
-      base == 4.*
-    , hspec >= 1.4
+      base >= 4.7 && < 5
+    , hspec == 2.*
     , blaze-markup
   hs-source-dirs: lib
   ghc-options: -Wall -W
